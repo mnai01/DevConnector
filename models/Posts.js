@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
   user: {
@@ -27,6 +27,9 @@ const PostSchema = new mongoose.Schema({
     {
       user: { type: mongoose.Schema.Types.ObjectId },
       text: { type: String, required: true },
+      name: {
+        type: String,
+      },
       avatar: {
         type: String,
       },
@@ -38,4 +41,4 @@ const PostSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model('post', PostSchema);
+module.exports = mongoose.model("post", PostSchema);
