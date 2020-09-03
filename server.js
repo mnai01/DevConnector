@@ -7,6 +7,7 @@ const app = express();
 connectDB();
 
 // Init Middleware
+// It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => res.send('API Running'));
