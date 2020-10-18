@@ -1,0 +1,247 @@
+// import partial file (_config.scss), partial is a file which begins with _
+// it contain little snippets of CSS that you can include in other Sass files
+@import 'config';
+@import 'utilities';
+@import 'form';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  // rem = default size of html, in this case
+  // the default size is 16px like it is normally
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+// remove bullets
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+}
+
+// Navbar
+// grid layout good for main layout related things like a profile
+// flexbox good for lining text in navbar
+
+.navbar {
+  // defines a flex container which does make everything inline horizontally
+  display: flex;
+
+  // centers items vertically
+  align-items: center;
+
+  justify-content: space-between;
+
+  // top bottom 0.7rem
+  // left right 2rem
+  padding: 0.7rem 2rem;
+
+  // always keep it on the top
+  position: fixed;
+
+  // keep navbar infront of all content
+  z-index: 1;
+
+  width: 100%;
+
+  // container top height (not inside the container like padding)
+  top: 0;
+
+  // add bottom border line
+  border-bottom: solid 1px $primary-color;
+  opacity: 0.9;
+
+  ul {
+    display: flex;
+  }
+
+  a {
+    color: #fff;
+    padding: 0.45rem;
+    // top right bottom left
+    margin: 0 0.25rem;
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+// Landing
+.landing {
+  // relative An element with position: relative; is positioned relative to its normal position.
+  // When the element moves, no other element on the layout will be affected.
+  position: relative;
+
+  //   EXAMPLE (background shorthand property)
+  //   body {
+  //     background: url(photo.jpg) left top no-repeat #000;
+  //   }
+  //   The example above specifies four background properties in one declaration and is the same as writing:
+
+  //   body {
+  //     background-image: url(photo.jpg);
+  //     background-position: left top;
+  //     background-repeat: no-repeat;
+  //     background-color: #000;
+  //   }
+  background: url('../img/showcase.jpg') no-repeat center/cover;
+  height: 100vh;
+
+  &-inner {
+    color: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    widows: 80%;
+    margin: auto;
+    align-items: center;
+    // verticle center
+    // centers off container
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+// Profiles Page
+.profile {
+  display: grid;
+  grid-template-columns: 2fr 4fr 2fr;
+  grid-gap: 2rem;
+  align-items: center;
+  padding: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+// Profile page
+.profile-grid {
+  display: grid;
+  grid-template-areas: 'top top' 'about about' 'exp edu' 'github github';
+  grid-gap: 1rem;
+
+  .profile-top {
+    grid-area: top;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    img {
+      width: 250px;
+    }
+
+    .icons a {
+      color: #fff;
+      margin: 0 0.3rem;
+
+      &:hover {
+        color: $dark-color;
+      }
+    }
+  }
+  .profile-about {
+    grid-area: about;
+    text-align: center;
+
+    .skills {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  }
+  .profile-exp {
+    grid-area: exp;
+  }
+  .profile-edu {
+    grid-area: edu;
+  }
+
+  //TWO WAYS OF DOING IT
+
+  // The immediate div in profile-exp
+  // protaine to each div in both exp and edu
+  // .profile-exp > div,
+  // .profile-edu > div {
+  //   margin-bottom: 1rem;
+  //   padding-bottom: 1rem;
+  //   border-bottom: #ccc 1px dotted;
+
+  //   &:last-child {
+  //     border: none;
+  //   }
+  // }
+
+  // The immediate div in profile-exp
+  // protaine to each div in both exp and edu
+  .profile-exp,
+  .profile-edu {
+    & > div {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: #ccc 1px dotted;
+    }
+
+    &:last-child {
+      border: none;
+    }
+
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+
+  .profile-github {
+    grid-area: github;
+
+    .repo {
+      display: flex;
+
+      & > div:first-child {
+        flex: 7;
+        flex-basis: 70%;
+      }
+      & > div:last-child {
+        flex: 3;
+        flex-basis: 20%;
+      }
+    }
+  }
+}
+
+// Post Page
+.post-form-header {
+  padding: 0.5rem;
+}
+.post {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 2rem;
+  align-items: center;
+
+  & > div:first-child {
+    text-align: center;
+  }
+
+  img {
+    width: 150px;
+  }
+}
+
+@import 'mobile';

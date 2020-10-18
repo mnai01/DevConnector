@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const { validationResult } = require('express-validator');
-const asyncHandler = require('../middleware/asyncHandler');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
+const { validationResult } = require("express-validator");
+const asyncHandler = require("../middleware/asyncHandler");
 
-const auth = require('../middleware/auth');
-const User = require('../models/Users');
+const auth = require("../middleware/auth");
+const User = require("../models/Users");
 
 // @route   GET api/auth
 // @desc    Test route
@@ -16,11 +16,11 @@ exports.testAuth = asyncHandler(async (req, res) => {
   try {
     // req.user is coming from the middleware
     // select -password will remove the password from being returned
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
@@ -33,7 +33,7 @@ exports.loginAuth = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   // if errors is not empty
   if (!errors.isEmpty()) {
-    console.log('ERROR AUTHENTICATING LOGIN');
+    console.log("ERROR AUTHENTICATING LOGIN");
     // return a 400 status and json object of the errors.array which contains the messages
     return res.status(400).json({ errors: errors.array() });
   }
@@ -53,13 +53,13 @@ exports.loginAuth = asyncHandler(async (req, res) => {
       // is because in our other error we are also returning an array of errors,
       // and within that array it has a msg variable, so we are recreating that
       // I think this will help will the frontend side when dealing with reponses
-      return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
+      return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
+      return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
     }
 
     const payload = {
@@ -81,8 +81,8 @@ exports.loginAuth = asyncHandler(async (req, res) => {
     // Fourth parameter call back function (asynchronous)
     jwt.sign(
       payload,
-      config.get('jwtSecret'),
-      { expiresIn: '7 days' },
+      config.get("jwtSecret"),
+      { expiresIn: "7 days" },
       (err, token) => {
         if (err) throw err;
         res.json({ token });
@@ -90,9 +90,9 @@ exports.loginAuth = asyncHandler(async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 
-  console.log('SUCESSFULLY REGISTERED USER');
+  console.log("SUCESSFULLY LOGGED USER");
   console.log(req.body);
 });
