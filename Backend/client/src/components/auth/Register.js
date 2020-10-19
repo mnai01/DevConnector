@@ -15,14 +15,30 @@ export const Register = () => {
     console.log(formData);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     // if passwords both blank you get error
     // SOLUTION  || password == '' || password2 == ''
     if (password !== password2) {
       console.log('password do not match');
     } else {
-      console.log(formData);
+      const newUser = {
+        name,
+        email,
+        password,
+      };
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const body = JSON.stringify(newUser);
+        const res = await axios.post('/api/users', body, config);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err.response.data);
+      }
     }
   };
 
@@ -74,7 +90,7 @@ export const Register = () => {
           <input
             type='password'
             placeholder='Confirm Password'
-            minlength='6'
+            minLength='6'
             name='password2'
             value={password2}
             onChange={(e) => {
