@@ -1,25 +1,64 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = JSON.stringify(formData);
+    try {
+      const res = await axios.post('/api/auth', body, config);
+      console.log(res);
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
   return (
     <>
-      {/* <!-- Alert --> */}
-      <div class='alert alert-danger'>Invalid Credentals</div>
-      <h1 class='large text-primary'>Sign In</h1>
-      <p class='lead'>
-        <i class='fas fa-user'></i>Sign into your account
+      <h1 className='large text-primary'>Sign In</h1>
+      <p className='lead'>
+        <i className='fas fa-user'></i>Sign into your account
       </p>
-      <form action='dashboard.html' class='form'>
-        <div class='form-group'>
-          <input type='email' placeholder='email' />
+      <form
+        action='dashboard.html'
+        className='form'
+        onSubmit={(e) => onSubmit(e)}
+      >
+        <div className='form-group'>
+          <input
+            type='email'
+            placeholder='email'
+            name='email'
+            onChange={(e) => onChange(e)}
+          />
         </div>
-        <div class='form-group'>
-          <input type='password' placeholder='Password' />
+        <div className='form-group'>
+          <input
+            type='password'
+            placeholder='Password'
+            name='password'
+            onChange={(e) => onChange(e)}
+          />
         </div>
-        <input type='submit' value='Login' class='btn btn-primary' />
+        <input type='submit' value='Login' className='btn btn-primary' />
       </form>
-      <p class='my-1'>
-        Dont have an account? <a href='register.html'>Sign up</a>
+      <p className='my-1'>
+        Dont have an account? <Link to='/register'>Sign up</Link>
       </p>
     </>
   );
