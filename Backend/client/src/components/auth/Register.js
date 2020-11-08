@@ -14,7 +14,7 @@ export const Register = () => {
     setFormdata({ ...formData, [e.target.name]: e.target.value });
     console.log(formData);
   };
-
+    
   const onSubmit = async (e) => {
     e.preventDefault();
     // if passwords both blank you get error
