@@ -8,10 +8,12 @@ import { Login } from './components/auth/Login';
 // Redux
 // this connects react and redux
 import { Provider } from 'react-redux';
+// Our own redux store
 import store from './store';
 
 function App() {
   return (
+    // Gives all the components below in the hierarchy access to app lvl state
     <Provider store={store}>
       <Router>
         <>
