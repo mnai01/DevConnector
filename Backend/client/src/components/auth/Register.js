@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
-export const Register = () => {
+const Register = (props) => {
   const [formData, setFormdata] = useState({
     name: '',
     email: '',
@@ -14,31 +19,32 @@ export const Register = () => {
     setFormdata({ ...formData, [e.target.name]: e.target.value });
     console.log(formData);
   };
-    
+
   const onSubmit = async (e) => {
     e.preventDefault();
     // if passwords both blank you get error
     // SOLUTION  || password == '' || password2 == ''
     if (password !== password2) {
-      console.log('password do not match');
+      props.setAlert('password do not match', 'danger', 3000);
     } else {
-      const newUser = {
-        name,
-        email,
-        password,
-      };
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-        const body = JSON.stringify(newUser);
-        const res = await axios.post('/api/users', body, config);
-        console.log(res.data);
-      } catch (err) {
-        console.log(err.response.data);
-      }
+      props.register({ name, email, password });
+      // const newUser = {
+      //   name,
+      //   email,
+      //   password,
+      // };
+      // try {
+      //   const config = {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   };
+      //   const body = JSON.stringify(newUser);
+      //   const res = await axios.post('/api/users', body, config);
+      //   console.log(res.data);
+      // } catch (err) {
+      //   console.log(err.response.data);
+      // }
     }
   };
 
@@ -69,7 +75,6 @@ export const Register = () => {
             onChange={(e) => {
               onChange(e);
             }}
-            required
           />
           <small className='form-text'>
             This site uses gravitar so use your gravitar email
@@ -90,7 +95,6 @@ export const Register = () => {
           <input
             type='password'
             placeholder='Confirm Password'
-            minLength='6'
             name='password2'
             value={password2}
             onChange={(e) => {
@@ -101,8 +105,19 @@ export const Register = () => {
         <input type='submit' value='Register' className='btn btn-primary' />
       </form>
       <p className='my-1'>
-        Already have an account?<a href='login.html'>Sign in</a>
+        Already have an account?<Link to='/login'>Sign in</Link>
       </p>
     </>
   );
 };
+
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+};
+
+// This will allow us to access props.setAlert
+// connect() takes in 2 things
+// 1st any state you wanna map (like getting state from profile)
+// 2nd an object with the action you want to use, this gets passed into the component via props
+export default connect(null, { setAlert, register })(Register);
