@@ -19,5 +19,7 @@ export default function (state = initialState, action) {
       localStorage.removeItem('token');
       // set value to null
       return { ...state, payload, isAuthenticated: false, loading: false };
+    default:
+      return state;
   }
 }
