@@ -1,19 +1,31 @@
-import React from 'react';
+// test1@test.com
+// test1234
+
+import React, { useEffect } from 'react';
 import './scss/style.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Navbar } from './components/layouts/Navbar';
 import { Landing } from './components/layouts/Landing';
 import Register from './components/auth/Register';
-import { Login } from './components/auth/Login';
+import Login from './components/auth/Login';
 import Alert from './components/layouts/Alert';
-
+import { loadUser } from './actions/auth';
+import setAuthToken from './utils/setAuthToken';
 // Redux
 // this connects react and redux
 import { Provider } from 'react-redux';
 // Our own redux store
 import store from './store';
 
-function App() {
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App = () => {
+  useEffect(() => {
+    // Since store is already imported here no need to use connect at the bottom
+    store.dispatch(loadUser());
+  }, []);
   return (
     // Gives all the components below in the hierarchy access to app lvl state
     <Provider store={store}>
@@ -33,6 +45,6 @@ function App() {
       </Router>
     </Provider>
   );
-}
+};
 
 export default App;
