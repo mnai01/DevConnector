@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
@@ -47,6 +47,11 @@ const Register = (props) => {
       // }
     }
   };
+
+  // Redirect if logged in
+  if (props.isAuthenticated) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <>
@@ -114,10 +119,14 @@ const Register = (props) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 // This will allow us to access props.setAlert
 // connect() takes in 2 things
 // 1st any state you wanna map (like getting state from profile)
 // 2nd an object with the action you want to use, this gets passed into the component via props
-export default connect(null, { setAlert, register })(Register);
+export default connect(mapStateToProps, { setAlert, register })(Register);
