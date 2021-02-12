@@ -31,6 +31,7 @@ Alert.propTypes = {
 const mapStateToProps = (state) => {
   console.log('mapping state to alert prop');
   // Pick the reducer you want the state to
+  // state.alert comes from the combine reducer, we are only taking the alert state
   return { alerts: state.alert };
 };
 
