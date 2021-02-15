@@ -25,7 +25,7 @@ router.post(
     // checks to make sure its an email
     check('email', 'Email is required').isEmail(),
     // checks to make sure password exists
-    check('password', 'Password is required').exists(),
+    check('password', 'Password is required').exists({ checkFalsy: true }),
   ],
   loginAuth
 );
